@@ -1,0 +1,38 @@
+version: "3"
+networks:
+  scapp-net:
+    
+
+
+services:     # list all services for your application
+  # database of users
+  target:
+    # image name
+    image: nfore/bird
+    #ports: ["179:179"]
+    env_file:
+    - variables.env
+    deploy:
+      # deploy only one instance of this service
+      replicas: 1
+      restart_policy:
+        # restart if something went wrong
+        condition: on-failure
+    networks: ["scapp-net"]
+    #command: python3 target.py && bird -c target.conf
+    command: tail -f /dev/null
+  # 
+  neighbor:
+    image: nfore/bird
+    #ports: ["179:179"]
+    deploy:
+      # deploy only one instance of this service
+      replicas: 1
+      restart_policy:
+        # restart if something went wrong
+        condition: on-failure
+    networks: ["scapp-net"]
+    env_file:
+    - variables.env
+    #command: python3 neighbor.py && bird -c neighbor.conf
+    command: tail -f /dev/null
