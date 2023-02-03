@@ -19,6 +19,9 @@ services:     # list all services for your application
         # restart if something went wrong
         condition: on-failure
     networks: ["scapp-net"]
+    placement:
+        constraints:
+          - node.role == manager
     #command: python3 target.py && bird -c target.conf
     command: tail -f /dev/null
   # 
@@ -32,6 +35,9 @@ services:     # list all services for your application
         # restart if something went wrong
         condition: on-failure
     networks: ["scapp-net"]
+    placement:
+        constraints:
+          - node.role == worker
     env_file:
     - variables.env
     #command: python3 neighbor.py && bird -c neighbor.conf
